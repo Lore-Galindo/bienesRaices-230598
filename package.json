@@ -1,0 +1,38 @@
+{
+  "name": "mx.utxj.ti.bienesraices",
+  "version": "1.0.0",
+  "description": "Proyecto de Clase para la unidad 2 de AWOS, utilizando Node.js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "saluda": "node saluda.js",
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lore-Galindo/bienesRaices-230598.git"
+  },
+  "keywords": [
+    "MVC",
+    "Express",
+    "Sequelize",
+    "MySQL",
+    "TailwindCSS",
+    "Nodemon",
+    "NodeJS",
+    "PUG",
+    "NodeMailer",
+    "Mailtrap",
+    "JWT"
+  ],
+  "author": "Lorena Citlalli Galindo Gonzalez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lore-Galindo/bienesRaices-230598"
+  },
+  "homepage": "https://github.com/Lore-Galindo/bienesRaices-230598#readme",
+  "dependencies": {
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7"
+  }
+}
