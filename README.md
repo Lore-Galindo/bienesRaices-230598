@@ -10,6 +10,7 @@ Para poder demostrary aprender la creacion y consumo de Interfaces de Programaci
 |No.|Fecha|Descripcion|Potenciador|Estatus|
 |--|--|--|--|--|
 |8.|17/10/2024|Nuevo Repositorio del Proyecto implementando .gitignore|1|🌙activa|
+|9.|22/10/2024|Creacion de una aplicacion Web usando Express|12|🌙activa|
 
 ## Autor
  **Lorena Citlalli Galindo Gonzalez** / [@Lore-Galindo](https://github.com/Lore-Galindo)
