@@ -1,4 +1,5 @@
 import generalRoutes from './routes/generalRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 // ? Ejemplo de activacion de HOT RELOAD
 //console.log("Hola desde NodeJS, esto esta en hot reload")
 
@@ -19,3 +20,4 @@ app.listen(port, () =>
 
 // ? Routing - Enrutacion para peticiones
 app.use("/",generalRoutes);
+app.use("/usuario/", userRoutes);
