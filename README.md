@@ -9,9 +9,9 @@ Para poder demostrary aprender la creacion y consumo de Interfaces de Programaci
 ## Historial de practicas 
 |No.|Fecha|Descripcion|Potenciador|Estatus|
 |--|--|--|--|--|
-|8.|17/10/2024|Nuevo Repositorio del Proyecto implementando .gitignore|1|🌙activa|
-|9.|22/10/2024|Creacion de una aplicacion Web usando Express|12|🌙activa|
-|10.|23/10/2024|Operaciones Basicas de una API a traves de los verbos HTTP|0|🌙Activa|
+|8.|17/10/2024|Nuevo Repositorio del Proyecto implementando .gitignore|1|🌙Finalizada|
+|9.|22/10/2024|Creacion de una aplicacion Web usando Express|12|🌙Finalizada|
+|10.|23/10/2024|Operaciones Basicas de una API a traves de los verbos HTTP|12|🌙Finalizada|
 
 ### Tech Stack
 ![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
