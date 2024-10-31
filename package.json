@@ -33,6 +33,7 @@
   "homepage": "https://github.com/Lore-Galindo/bienesRaices-230598#readme",
   "dependencies": {
     "express": "^4.21.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "pug": "^3.0.3"
   }
 }

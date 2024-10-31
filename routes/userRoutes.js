@@ -1,5 +1,6 @@
 import express, { response } from 'express';
-
+import { formularioLogin, formularioPasswordRecovery, formularioRegister } from '../controllers/userController.js';
+export {formularioLogin, formularioRegister ,formularioPasswordRecovery} from '../controllers/userControllers.js';
 const router = express.Router();
 
 //GET
@@ -41,8 +42,29 @@ router.get("/FindById/:Id" ,function (request, response){
 
 //DELETE
 
-    router.delete("/deleteUser/:name", function (pko, mota){
+    router.delete("/deleteUser/:name", function (a, mota){
         mota.send(`se esta solicitando eliminar el usuario ${pko.params.name}`);
         })
 
+
+
+
+
+
+
+
+
+
+
+        //router.get('/login', function(request,response){
+            //response.render("auth/login", {
+              //  autenticado:true
+            //})
+
+        //})
+
+
+        router.get("/login",formularioLogin /* midddleware*/)
+        router.get("/createAccount",formularioRegister /* midddleware*/)
+        router.get("/passwordRecovery",formularioPasswordRecovery/* midddleware*/)
 export default router;

@@ -6,7 +6,7 @@ router.get("/", function(req, res){
     res.send("Hola desde la web en NodeJS")
 })
 
-router.post("/quienSoy", function(req, res){
+router.get("/quienSoy", function(req, res){
     res.json({
         "nombre" : "Lorena Citlalli Galindo Gonzalez",
         "carrera" : "DSM",
