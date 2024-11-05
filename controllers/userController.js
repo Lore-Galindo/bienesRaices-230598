@@ -1,18 +1,23 @@
-//le estamos diciendo hacia que ruta tiene ir como cuando pregunta hacia donde quieren ir
-const formularioLogin = (request, response)=> {
-            response.render("auth/login", {
-                autenticado:false 
-})}
+import { request, response } from "express"
 
-const formularioRegister = (request, response)=> {
-                response.render('auth/register',{
+const formularioLogin=(request, response)=>{
+    response.render('auth/login', {
+        //autenticado: true, //JSON
+        page: "Ingresa a la plataforma"
+    })
+}
 
-})};
-const formularioPasswordRecovery = (request, responde)=>{
-    responde.render('auth/passwordRecory',{
+const formularioRegister=(request, response)=>{
+    response.render('auth/register', {
+        page: "Crea una nueva cuenta"
+    })
+}
 
-})};
-    
-export {formularioLogin, formularioRegister ,formularioPasswordRecovery};
+const formularioPasswordRecovery=(request, response)=>{
+    response.render('auth/passwordRecovery', {
+        page: "Recupera tu contraseña"
+    })
+}
 
-        
+
+export {formularioLogin, formularioRegister, formularioPasswordRecovery}

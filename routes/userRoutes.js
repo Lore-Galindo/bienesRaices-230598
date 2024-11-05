@@ -1,7 +1,6 @@
-import express, { response } from 'express';
-import { formularioLogin, formularioPasswordRecovery, formularioRegister } from '../controllers/userController.js';
-export {formularioLogin, formularioRegister ,formularioPasswordRecovery} from '../controllers/userControllers.js';
-const router = express.Router();
+import express from 'express';
+const router=express.Router();
+import {formularioLogin, formularioRegister, formularioPasswordRecovery} from '../controllers/userController.js';
 
 //GET
 //EndPoints - son las rutas para acceder a las secciones o funciones de nuestra aplicacion web
