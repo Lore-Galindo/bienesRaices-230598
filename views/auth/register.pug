@@ -6,5 +6,32 @@ block contenido
             span.font-normal.text-black Raíces
         h2.text-center.font-extrabold.text-2xl=page
 
-        .mt-8 
+        .mt-8.mx-auto.max-w-md 
             .bg-white.py-8.px-4.shadow
+                form(action="").space-y-5
+                    
+                    div 
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.fond-nold Lorena Citlalli Galindo Gonzalez
+                        input#name.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="text" placeholder="Ingresa tu nombre con apellidos" name="nombre-usuario")
+
+                    div 
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.fond-nold  Correo Electronico 
+                        input#email.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="email" placeholder="Ej:usuario@dominio.com" name="correo_usuario")
+
+                    div 
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.fond-nold Contraseña:
+                        input#password.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres" name="pass_usuario")
+
+                    div 
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.fond-nold Confirmacion de contraseña:
+                        input#password-confirm.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres, igual a ala anterior" name="pass2_usuario")
+                    
+                    .flex.items-center.justify-between
+                       a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-red-500") ¿Ya tienes cuenta? Iniciar Sesion
+                       a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-red-600") Olvide mi Contraseña ....
+
+
+
+                    input(class="w-full bg-indigo-600 hover:bg-red-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
+
+
