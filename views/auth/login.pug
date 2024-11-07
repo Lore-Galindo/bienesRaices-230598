@@ -18,9 +18,11 @@ block contenido
                         label.block.text-sm.uppercase.text-gray-600.mb-2.fond-nold Contraseña:
                         input#password.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres" name="pass_usuario")
                        
-                       .flex.items-center.justify-between
-                       a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-red-500") Aun no tienes cuenta registrate 
-                       a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-red-500") Olvide mi Contraseña ....
-                
+                    div.flex.items-center.justify-between
+                        a.text-gray-500.text-xs(href="/auth/createAccount" class="hover:underline decoration-2 hover:decoration-red-500") ¿Aún no tienes cuenta? Registrate
+                        a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-red-500") Olvide mi contraseña
+                    
                     input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Ingresar")
-        
+
+
+                    

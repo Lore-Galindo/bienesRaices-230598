@@ -26,12 +26,10 @@ block contenido
                         label.block.text-sm.uppercase.text-gray-600.mb-2.fond-nold Confirmacion de contraseña:
                         input#password-confirm.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres, igual a ala anterior" name="pass2_usuario")
                     
-                    .flex.items-center.justify-between
-                       a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-red-500") ¿Ya tienes cuenta? Iniciar Sesion
-                       a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-red-600") Olvide mi Contraseña ....
-
-
-
+                    div.flex.items-center.justify-between
+                        a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-red-500") ¿Ya tienes cuenta? Inicia sesión
+                        a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-red-500") Olvide mi contraseña
+                    
                     input(class="w-full bg-indigo-600 hover:bg-red-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
 
 
