@@ -1,6 +1,6 @@
-import express, { response } from 'express';
-
-const router = express.Router();
+import express from 'express';
+const router=express.Router();
+import {formularioLogin, formularioRegister, formularioPasswordRecovery} from '../controllers/userController.js';
 
 //GET
 //EndPoints - son las rutas para acceder a las secciones o funciones de nuestra aplicacion web
@@ -41,8 +41,29 @@ router.get("/FindById/:Id" ,function (request, response){
 
 //DELETE
 
-    router.delete("/deleteUser/:name", function (pko, mota){
+    router.delete("/deleteUser/:name", function (a, mota){
         mota.send(`se esta solicitando eliminar el usuario ${pko.params.name}`);
         })
 
+
+
+
+
+
+
+
+
+
+
+        //router.get('/login', function(request,response){
+            //response.render("auth/login", {
+              //  autenticado:true
+            //})
+
+        //})
+
+
+        router.get("/login",formularioLogin /* midddleware*/)
+        router.get("/createAccount",formularioRegister /* midddleware*/)
+        router.get("/passwordRecovery",formularioPasswordRecovery/* midddleware*/)
 export default router;
