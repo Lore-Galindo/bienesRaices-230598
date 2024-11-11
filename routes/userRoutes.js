@@ -1,49 +1,50 @@
 import express from 'express';
-const router=express.Router();
-import {formularioLogin, formularioRegister, formularioPasswordRecovery} from '../controllers/userController.js';
+import { formularioLogin, formularioRegister, formularioPasswordRecovery } from '../controllers/userController.js'
+const router = express.Router();
 
-//GET
-//EndPoints - son las rutas para acceder a las secciones o funciones de nuestra aplicacion web
-//2 componentes de una peticion, ruta, funcion, callback
+//GET - Se utiliza para la lectura de datos e información del servidor al cliente 
+//EndPoints - Son las rutas para accender a las secciones o funciones de nuestra aplicación web
+// 2 componentes de una petición ruta(a donde voy), función callback (que hago)
 // ":" en una ruta definen de manera posicional los parametros de entrada
-router.get("/FindById/:Id" ,function (request, response){
-    response.send(`Se esta solicitando buscar al usuario con ID: ${request.params.Id}`);
+router.get("/busquedaPorID/:id", function (request,response){
+    response.send(`Se esta solicitando buscar al usuario con ID: ${request.params.id}`);
+})  // 2 componentes de una petición ruta, función callback 
+
+//POST - Se utiliza para el envío de datos e información del cliente al servidor
+router.post("/newUser/:name/:email/:password", function(req, res){
+    res.send(`Se ha solicitado la creación de un nuevo usuario de nombre: ${req.params.name},
+        asociado al correo electronico: ${req.params.email} con la contraseña: ${req.params.password}`)
 })
 
-//POST
-    router.post("/newUser/:name/:email/:password", function (req, res){
-        res.send(` se ha solicitado la creacion de un nuevo usuario de nombre: ${req.params.name},
-            asociado al correo electronico ${req.params.email} y con la contraseña ${req.params.password}`);
-    })
+//PUT - Se utiliza para la actualización total de información del cliente al servidor
+router.put("/replaceUserByEmail/:name/:email/:password", function(a,b){
+    b.send(`Se ha solicitado el remplazo de toda la información del usuario ${a.params.name},
+     con correo: ${a.params.email} y contraseña: ${a.params.password}`)
+})
 
+//PATCH -Se utiliza para la actualización parcial
+router.patch("/updatePassword/:email/:newPassword/:newPasswordConfirm", function(request, response){
+    const {email, newPassword, newPasswordConfirm} = request.params // Desestructuración de un objeto
 
-//PUT - Se utiliza para la actualizacion global de todo el objeto, en este caso la informacion del usuario
-    router.put("/replaceUser/:name/:email/:password", function (taco, quesadilla) {
-        quesadilla.send(`Se esta solicitando el remplazo de toda la informacion del usuario: ${taco.params.name},
-            con el correo electronico ${taco.params.email} y la contraseña ${taco.params.password}`);
-
-    })
-
-//PATCH - Se utiliza para la actualizacion de ciertas propiedades del objeto
-
-    router.patch("/updatePassword/:email/:newPassword/:passwordConfirm", function (a, b){
-
-        const {email, newPassword, passwordConfirm} = a.params //desestructuracion de un objeto
-
-        if (newPassword === passwordConfirm){
-            b.send(`Se esta solicitando la actalizacion de la contraseña del usuario del usuario con el correo: ${email},
-                se aceptan los cambios ya que la contraseña y la confirmacion es la misma`);
-        }else{
-            b.send(`Se esta solicitando la actalizacion de la contraseña del usuario del usuario con el correo: ${email},
-                con la nueva contraseña ${newPassword}, pero se rechaza el cambio dado que su nueva contraseña y su confirmacion no coinciden`);
-        }
-    })
+    if(newPassword == newPasswordConfirm)
+    {
+        response.send(`Se ha solicitado la actualización de la contraseña del usuario con correo: ${email}, se aceptan los cambios ya que la contraseña y confirmación son la misma.`)
+        console.log(newPassword);
+        console.log(newPasswordConfirm);
+    }
+    else
+    {    
+        response.send(`Se ha solicitado la actualización de la contraseña del usuario con correo: ${email} con la nueva contraseña ${newPassword}, pero se rechaza el cambio dado que la nueva contraseña y su confirmación no coinciden.`)
+        console.log(newPassword);
+        console.log(newPasswordConfirm);
+    }
+})
 
 //DELETE
+router.delete("/deleteUser/:email", function(request, response){
+    response.send(`Se ha solicitado la eliminación del usuario asociado al correo: ${request.params.email}`)
+})
 
-    router.delete("/deleteUser/:name", function (a, mota){
-        mota.send(`se esta solicitando eliminar el usuario ${pko.params.name}`);
-        })
 
 
 
