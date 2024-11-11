@@ -28,6 +28,25 @@ app.set ('views', './views')
 
 app.use(express.static('./public'));
 
+//Conexion a la BD
+try{
+    await db.authenticate();
+    db.sync();
+    console.log("Conexion exitosa ala base de datos")
+
+}
+catch(error)
+{
+     console.log(error)
+}
+//Habilitar la lectura de datosb desde formuilario
+app.use(express.urlencoded({encoded:true}))
+
+    
+
+
+
+
 const port = 3000
 app.listen(port, () =>
     console.log(`La aplicacion ha iniciado en el puerto: ${port}`))

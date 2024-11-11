@@ -1,14 +1,16 @@
 import { DataTypes, Sequelize } from 'sequelize'
 import db from '../config/db.js'
+//import { data } from 'autoprefixer'
 
-const Usuario = db.define('usuarios',{
-    nombre: {
+const Users = db.define('tbb_users',{
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique:true
     },
     password: {
         type: DataTypes.STRING,
@@ -18,4 +20,4 @@ const Usuario = db.define('usuarios',{
     confirmado: DataTypes.BOOLEAN
 })
 
-export default Usuario
+export default Users;

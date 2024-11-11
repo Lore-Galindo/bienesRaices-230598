@@ -1,14 +1,14 @@
 extends ../layout/index
 
 block contenido 
-    .py-10 
+    div.py-10 
         h2.text-center.font-extrabold.my-10.text-4xl.text-violeta Bienes
             span.font-normal.text-black Raíces
         h2.text-center.font-extrabold.text-2xl=page
 
         .mt-8.mx-auto.max-w-md 
             .bg-white.py-8.px-4.shadow
-                form(action="").space-y-5
+                form(method="POST" action="/auth/newUser").space-y-5
                     
                     div 
                         label.block.text-sm.uppercase.text-negro.mb-2.font-bold Lorena Citlalli Galindo Gonzalez
@@ -30,6 +30,6 @@ block contenido
                         a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-amarillo") ¿Ya tienes cuenta? Inicia sesión
                         a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-amarillo") Olvide mi contraseña
                     
-                    input(class="w-full bg-rosa hover:bg-violeta text-white font-bold py-3 cursor-pointer" type="submit" value="Ingresar")
+                     input(class="w-full bg-rosa hover:bg-violeta text-white font-bold py-3 cursor-pointer" type="submit" value="Ingresar")
 
 
