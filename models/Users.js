@@ -1,5 +1,5 @@
-import { DataTypes, Sequelize } from 'sequelize'
-import db from '../config/db.js'
+import { DataTypes } from 'sequelize'
+import db from '../db/config.js'
 //import { data } from 'autoprefixer'
 
 const Users = db.define('tbb_users',{

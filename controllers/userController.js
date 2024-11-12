@@ -1,4 +1,5 @@
 //import { request, response } from "express"
+import { check,validationResult } from "express-validator"
 import Users from "../models/Users.js"
 
 const formularioLogin=(request, response)=>{
@@ -22,8 +23,11 @@ const formularioPasswordRecovery=(request, response)=>{
 
 const createNewUser= async(request, response) =>
 {
-       console.log("Registrando a un nuevo usuario")
-       console.log(request.body);
+        await check('nombre_usuario').notEmpty().run(request)
+        let resultado = validationResult(request)
+        response.json(resultado.array())
+        console.log("Registrando a un nuevo usuario")
+        console.log(request.body);
 
        //Registramos los datos en la base de datos 
         const newUsers = await User.create({

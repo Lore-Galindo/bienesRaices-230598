@@ -1,7 +1,7 @@
 import express from 'express'
 import generalRoutes from './routes/generalRoutes.js'
 import userRoutes from './routes/userRoutes.js';
-import db from './config/db.js'
+import db from './db/config.js'
 
 
 //Crear la APP
