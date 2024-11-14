@@ -1,6 +1,8 @@
 //import { request, response } from "express"
 import { check,validationResult } from "express-validator"
 import Users from "../models/Users.js"
+import { request, response } from "express"
+
 
 const formularioLogin=(request, response)=>{
     response.render('auth/login', {
@@ -20,6 +22,18 @@ const formularioPasswordRecovery=(request, response)=>{
         page: "Recupera tu contraseña"
     })
 }
+//Desestructurar los parametros del request 
+const {nombre_usuario:name, correo_usuario:email, pass_usuario:password}=request.body
+
+//verificar que el usuario no existe previamente en la bd
+const existingUser= await User.findOne ({ where: { email}}
+
+
+)
+
+
+
+
 
 const createNewUser= async(request, response) =>
 {
