@@ -2,6 +2,7 @@ import express from 'express'
 import generalRoutes from './routes/generalRoutes.js'
 import userRoutes from './routes/userRoutes.js';
 import db from './db/config.js'
+import dotenv from 'dotenv'
 
 
 //Crear la APP
@@ -44,9 +45,11 @@ catch(error)
 //Habilitar la lectura de datosb desde formuilario
 app.use(express.urlencoded({extended:true}))
 
-const port = 3000
-app.listen(port, () =>
-    console.log(`La aplicacion ha iniciado en el puerto: ${port}`))
+// configuramos nuestro servidor web
+const port = procces.env.BACKEND_PORT;
+app.listen(port, () =>{
+    console.log(`La aplicacion ha iniciado en el puerto: ${port}`);
+})
 
 
 // Routing - Enrutacion para peticiones

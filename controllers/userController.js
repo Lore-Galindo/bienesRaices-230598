@@ -1,6 +1,7 @@
 import { check,validationResult } from "express-validator"
 import User from "../models/Users.js"
-import { generarId } from "../herlpers/tokens.js"
+import { generarId } from "../helpers/tokens.js"
+import {emailAfterRegister } from '../helpers/email.js'
 
 const formularioLogin=(request, response)=>{
     response.render('auth/login', {
@@ -90,12 +91,27 @@ const createNewUser = async(request, response) =>{
         email: user.email,
         token: user.token
     })
+
+    //eNVIAR ELÑ CORREO DE CONFIRMACION
+    emailAfterRegister({
+        name: NewUser.name,
+        email:NewUser.email,
+        token: NewUser.token 
+    })
     
 
 
     
+   //funcion que comprueba una cuenta 
+    const confirm = ()=>
+     {
+        //validarToken = si existe
+        //confirmar cuenta 
+        //enciar mensaje
+        const {token }=request.params
+        console.log(`Intentando confirmar la cuenta con el token: ${request.params.token}`)
 
-}
+     }
 
 
-export {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser}
+export {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser, confirm }
