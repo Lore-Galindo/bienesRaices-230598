@@ -1,8 +1,9 @@
 import { DataTypes } from 'sequelize'
 import db from '../db/config.js'
 //import { data } from 'autoprefixer'
+import bcrypt from 'bcrypt'
 
-const Users = db.define('tbb_users',{
+const User = db.define('Users',{
     name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -18,6 +19,15 @@ const Users = db.define('tbb_users',{
     },
     token: DataTypes.STRING,
     confirmado: DataTypes.BOOLEAN
-})
+},{
+    hooks: {
+        beforeCreate: async function (user) {
+            const salt = await  bcrypt.genSalt(10)
+            user.password = await bcrypt.hash(user.password, salt);
+        }
+    }
+}) 
 
-export default Users;
+
+
+export default User;

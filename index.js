@@ -9,7 +9,9 @@ const app = express()
 
 //conexion con la base de datos
 try {
+    
     await db.authenticate();
+    db.sync();
     console.log('conexión correcta a la base de datos')
 }catch (error){
     console.log(error)
@@ -40,12 +42,7 @@ catch(error)
      console.log(error)
 }
 //Habilitar la lectura de datosb desde formuilario
-app.use(express.urlencoded({encoded:true}))
-
-    
-
-
-
+app.use(express.urlencoded({extended:true}))
 
 const port = 3000
 app.listen(port, () =>

@@ -11,7 +11,6 @@ router.get("/busquedaPorID/:id", function (request,response){
 })  // 2 componentes de una petición ruta, función callback 
 
 //POST - Se utiliza para el envío de datos e información del cliente al servidor
-router.post("/newUser",createNewUser)
 
 //PUT - Se utiliza para la actualización total de información del cliente al servidor
 router.put("/replaceUserByEmail/:name/:email/:password", function(a,b){
@@ -63,5 +62,6 @@ router.delete("/deleteUser/:email", function(request, response){
 
         router.get("/login",formularioLogin /* midddleware*/)
         router.get("/createAccount",formularioRegister /* midddleware*/)
+        router.post("/newUser",createNewUser)
         router.get("/passwordRecovery",formularioPasswordRecovery/* midddleware*/)
 export default router;

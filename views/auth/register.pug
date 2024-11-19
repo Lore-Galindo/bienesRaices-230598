@@ -6,30 +6,35 @@ block contenido
             span.font-normal.text-black Raíces
         h2.text-center.font-extrabold.text-2xl=page
 
+        if errors 
+            div(class="max-w-md mx-auto my-10")
+                each error in errors 
+                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
+
         .mt-8.mx-auto.max-w-md 
             .bg-white.py-8.px-4.shadow
                 form(method="POST" action="/auth/newUser").space-y-5
                     
                     div 
                         label.block.text-sm.uppercase.text-negro.mb-2.font-bold Nombre Completo
-                        input#name.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="text" placeholder="Ingresa tu nombre con apellidos" name="nombre-usuario")
+                        input#name.w-full.px-3.py-2.border.border-gray300.rounded-xl.placeholder.gray-400(type="text" placeholder="Ingresa tu nombre con apellidos" name="name" value= user ? user.name : '')
 
                     div 
                         label.block.text-sm.uppercase.text-negro.mb-2.font-bold  Correo Electronico 
-                        input#email.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="email" placeholder="Ej:usuario@dominio.com" name="correo_usuario")
+                        input#email.w-full.px-3.py-2.border.border-gray300.rounded-xl.placeholder.gray-400(type="email" placeholder="Ej:usuario@dominio.com" name="email" value=user ? user.email : '')
 
                     div 
                         label.block.text-sm.uppercase.text-negro.mb-2.font-bold Contraseña:
-                        input#password.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres" name="pass_usuario")
+                        input#password.w-full.px-3.py-2.border.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres" name="password")
 
                     div 
                         label.block.text-sm.uppercase.text-negro.mb-2.font-bold Confirmacion de contraseña:
-                        input#password-confirm.w-full.px-3.py-2.borde.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres, igual a ala anterior" name="pass2_usuario")
+                        input#password-confirm.w-full.px-3.py-2.border.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres, igual a ala anterior" name="password_confirm")
                     
                     div.flex.items-center.justify-between
                         a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-amarillo") ¿Ya tienes cuenta? Inicia sesión
                         a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-amarillo") Olvide mi contraseña
-                    
-                     input(class="w-full bg-rosa hover:bg-violeta text-white font-bold py-3 cursor-pointer" type="submit" value="Ingresar")
+                    div
+                        input(class="w-full bg-rosa hover:bg-violeta text-white font-bold py-3 cursor-pointer" type="submit" value="Ingresar")
 
 
