@@ -46,7 +46,7 @@ catch(error)
 app.use(express.urlencoded({extended:true}))
 
 // configuramos nuestro servidor web
-const port = procces.env.BACKEND_PORT;
+const port = process.env.BACKEND_PORT;
 app.listen(port, () =>{
     console.log(`La aplicacion ha iniciado en el puerto: ${port}`);
 })

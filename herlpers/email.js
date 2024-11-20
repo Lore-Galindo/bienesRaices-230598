@@ -28,3 +28,4 @@ dotenv.config({path: 'env'})
         <p>si  tu no has creado la cuenta ignora este mensaje`
     })
  }
+ export {emailAfterRegister}
