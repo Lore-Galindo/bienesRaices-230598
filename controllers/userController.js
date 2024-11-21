@@ -1,7 +1,6 @@
 import {  check, validationResult } from 'express-validator'
 import User from '../models/Users.js'
 import {generarId} from '../herlpers/tokens.js'
-import { request, response } from 'express'
 import { emailAfterRegister } from '../herlpers/email.js'
 
 
@@ -20,14 +19,7 @@ const formularioRegister= (request, response) =>{
     })
 }
 
-const formularioPasswordRecovery= (request, response) =>{
-    response.render('auth/passwordRecovery',{
-        page: "Recuperar contraseña" 
-    })
-}
-
-
-const CreateNewUser=async(request, response) =>{
+const register = async(request, response) =>{
    /*=async*/ 
 
    await check(`name`).notEmpty().withMessage("El nombre del usuario es un campo obligatorio").run(request)
@@ -36,52 +28,40 @@ const CreateNewUser=async(request, response) =>{
    await check("password_confirm").equals(request.body.password).withMessage("la contraseña y su confirmacion debe coincidir").run(request)
 
    let resultado =validationResult(request)
-    if(!resultado.isEmpty()){
-        return response.render(`auth/register`,{
-        page: `Error al intentar crear la cuenta de usuario`,
+    
+   if (!resultado.isEmpty()) {
+    return response.render('auth/register', {
+        page: 'Crear cuenta',
         errores: resultado.array(),
-        User:{
+        user: { 
             name: request.body.name,
-            email: request.email,
+            email: request.body.email,  
         }
-    })
-  } 
-
-/*else{
-    console.log("registrando a un nuevo usuario");
-    console.log(req.body);
-   
-
-}*/
-
-  // res.json(resultado.array());
-
-
-const {name: name, email:email,password:password}= request.body;
-const existingUser=await User.findOne({where:{email}})
-
-console.log(existingUser);
-
-if(existingUser)
-{
-    return response.render("auth/register",{
-        page: `Error al intentar crear la cuenta de usuario`,
-        errores: [{msg: `El usuario ${email} ya se encuentra registrado`}],
-        users:{
-            name: name
-        
-        }
-    })
-   
+    });
 }
+
+const { name, email, password } = request.body;
+const existingUser = await User.findOne({ where: { email } });
+
+if (existingUser) {
+    return response.render("auth/register", {
+        page: "Error al intentar crear la cuenta de usuario",
+        errores: [{ msg: `El usuario ${email} ya se encuentra registrado` }],
+        user: {  // Cambié 'users' a 'user' y lo llené con los valores correctos
+            name: request.body.name,
+            email: request.body.email,
+        }
+    });
+}
+
 
 console.log("Registrado a un nuevo usuario");
 console.log(request.body);
 
 const newUser= await User.create({
-    name: request.body.name,
-    email: request.body.password,
-    password: request.body.password_confirm, 
+    name,
+    email,
+    password, 
     token: generarId()
 });
 
@@ -91,7 +71,7 @@ emailAfterRegister({
     token: newUser.token
 })
 
-response.render("templanes/menssage",{
+response.render("templates/mesage",{
     page: "cuenta creada correctamente",
     menssage:  `hemos enviado un email de confirmacion a ${email}`
 })
@@ -102,13 +82,35 @@ response.render("templanes/menssage",{
 
 }
 
-const confirm=(request,response)=>{
-    //validacion token 
+const confirmAccount = async (request, response) => {
+    const { token } = request.params;
+    const confirmUser = await User.findOne({ where: { token } });
     
+    if (!confirmUser) {
+        return response.render('auth/confirmAccount', {  
+            page: 'Error al confirmar tu Cuenta',
+            message: 'Hubo un error al confirmar tu cuenta, intenta de nuevo',
+            error: true,
+        });
+    }
 
-    //
-    const {token}=request.params
-    console.log(`Intentando confirmar la cuenta con el token: ${token}`);
+    // Confirmar la cuenta
+    confirmUser.token = null;
+    confirmUser.confirmAccount = true;
+    await confirmUser.save();
+
+    response.render('auth/confirmAccount', { 
+        page: 'Cuenta Confirmada',
+        message: 'La cuenta se confirmó correctamente',
+    });
 }
 
-export {formularioLogin, formularioRegister, formularioPasswordRecovery, CreateNewUser,confirm}
+const formularioPasswordRecovery= (request, response) =>{
+    response.render('auth/passwordRecovery',{
+        page: "Recuperar contraseña" 
+    })
+}
+
+export {
+    formularioLogin, formularioRegister, register, confirmAccount, formularioPasswordRecovery
+}

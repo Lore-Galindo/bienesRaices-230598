@@ -1,5 +1,5 @@
 import express from 'express';
-import { formularioLogin, formularioRegister, formularioPasswordRecovery, CreateNewUser,confirm} from '../controllers/userController.js'
+import { formularioLogin, formularioRegister, formularioPasswordRecovery, register, confirmAccount} from '../controllers/userController.js'
 const router = express.Router();
 
 //GET - Se utiliza para la lectura de datos e información del servidor al cliente 
@@ -41,29 +41,9 @@ router.delete("/deleteUser/:email", function(request, response){
     response.send(`Se ha solicitado la eliminación del usuario asociado al correo: ${request.params.email}`)
 })
 
-
-
-
-
-
-
-
-
-
-
-
-        //router.get('/login', function(request,response){
-            //response.render("auth/login", {
-              //  autenticado:true
-            //})
-
-        //})
-
-
         router.get("/login",formularioLogin /* midddleware*/)
-        router.get("/createAccount",formularioRegister /* midddleware*/)
-        router.get("/confirmAccount/:token", confirm)
-        router.post("/createAccount", CreateNewUser)
-        //router.post("/newUser",createNewUser)
+        router.get("/register", formularioRegister);
+        router.post("/register", register);   
+        router.post("/confirmAccount/:token", confirmAccount)
         router.get("/passwordRecovery",formularioPasswordRecovery/* midddleware*/)
        export default router;
