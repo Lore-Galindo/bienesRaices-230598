@@ -25,7 +25,10 @@ dotenv.config({path: 'env'})
         <br>
         <p>Ya solo necesitamos confirmes la cuenta que creaste, dando click a la suiguiente liga: <a href="${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}"> Confirmar cuenta </a></p>
         <br>
-        <p>si  tu no has creado la cuenta ignora este mensaje`
+        <p>si  tu no has creado la cuenta ignora este mensaje
+        
+        style="background-color: #ee7956; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; display: inline-block;">
+                Confirmar Cuenta`
     })
  }
  export {emailAfterRegister}

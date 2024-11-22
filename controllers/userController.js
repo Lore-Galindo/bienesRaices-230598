@@ -10,12 +10,14 @@ import { emailAfterRegister } from '../herlpers/email.js'
 const formularioLogin= (request, response) =>{
     response.render('auth/login',{
         page: "Ingresa a la plataforma"
+        //csrfToken: request.csrfToken()
     })
 }
 
 const formularioRegister= (request, response) =>{
     response.render('auth/register',{
         page: "crea una nueva cuenta"
+        
     })
 }
 
@@ -108,6 +110,7 @@ const confirmAccount = async (request, response) => {
 const formularioPasswordRecovery= (request, response) =>{
     response.render('auth/passwordRecovery',{
         page: "Recuperar contraseña" 
+        
     })
 }
 
