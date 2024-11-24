@@ -2,7 +2,8 @@ import { check, validationResult } from 'express-validator';
 import User from '../models/User.js';
 import { generatetid } from '../helpers/tokens.js';
 import { emailAfterRegister } from '../helpers/email.js';
-import moment from 'moment';
+
+
 // Renderizar formulario de inicio de sesión
 const formularioLogin = (req, res) => {
     res.render('auth/login', {
