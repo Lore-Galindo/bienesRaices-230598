@@ -1,64 +1,41 @@
 import express from 'express';
-import generalRoutes from './Routes/generalRoutes.js'
-import userRoutes from './Routes/userRoutes.js'
-import db from './db/config.js'
-import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser';
+import csurf from 'csurf';
 
-dotenv.config({path: '.env'})
+import generalRoutes from './routes/generalRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import db from './config/db.js';
+
+// ? Crear la app
+const app = express()
+
+app.set('view engine', 'pug')
+app.set('views', './Views')
 
 
-//conexión a la base de datos.
-try{
-    await db.authenticate();  //verifica las credenciales del usuario
-    db.sync(); //sincronizo las tablas con los modelos
-    console.log("Conexión correcta a la Base de Datos");
+// ? Habilitar la lectura de los datos de un formulario
+app.use(express.urlencoded({ extended: true }))
 
-}catch(error){
+// ? Habilitar cookie Parser
+app.use(cookieParser())
 
-    console.log(error);
+// ? Habilitar CSRF
+app.use(csurf({ cookie: true }))
+
+app.use(express.static('./public'))
+
+try {
+    await db.authenticate()
+    db.sync()
+    console.log('Conexión correcta a la base de datos')
+} catch (error) {
+    console.error('Error en la conexión a la base de datos:', error)
 }
 
+app.use('/', generalRoutes)
+app.use('/auth', userRoutes)
 
-//const express=require(`express`);//Importar la libreria para crear un servidor web
-
-//Ibstanciar nuestra aplicacion web
-const app=express()
-
-//Habilitar la lectura de datos de formularios
-app.use(express.urlencoded({ extended: true }));
-
-
- 
-//Habilitar Pug 
-app.set('view engine', 'pug')
-app.set('views', './views')
-
-//Definir la carpeta pública de recursos estáticos (assets)
-app.use(express.static('./public'));
-
-
-// configuramos nuestro servidor web
-const port= process.env.BACKEND_PORT; 
-app.listen(port, ()=>{
-    console.log(`La aplicación ha iniciado al puerto: ${port}`);
-})
-
-//Probamos las rutas para poder presentar mensajes al usuario a través del navegador
-/*app.get("/", function(req,res){
-    res.send("Hola mundo desde Node, a través del navegador")
-})
-
-app.get("/QuienSoy", function(req, res){
-    res.json({"estudiante": "Lorena Citlalli Galindo",
-        "carrera": "TI DSM",
-        "grado": "4°",
-        "grupo":"B",
-        "asignatura": "Aplicaciones web orientada a servicios"
-
-    })
-})*/
-
-//Routing - Enrutamiento
-app.use('/',generalRoutes);
-///app.use('/usuario/',userRoutes);
-app.use('/auth/',userRoutes);
+const port = process.env.PORT || 3000
+app.listen(port, () =>
+    console.log(`La aplicación ha iniciado en el puerto: ${port}`)
+)

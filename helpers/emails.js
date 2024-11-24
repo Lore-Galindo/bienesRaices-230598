@@ -1,10 +1,6 @@
 import nodemailer from 'nodemailer'
-import dotenv from 'dotenv'
+const registerEmail = async (data) => {
 
-dotenv.config({path: '.env'})
-
-
-const emailAfterRegister = async (newUserData) => {
     const transport = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: process.env.EMAIL_PORT,
@@ -12,17 +8,17 @@ const emailAfterRegister = async (newUserData) => {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
         }
-    })
-
-    const { email, name, token } = newUserData
-
-    // Enviar el email
+    });
+    
+    const {email, name, token} = data
+    
+    //enviar el email
     await transport.sendMail({
-        from: 'bienesraices_230297.com',
+        from: 'BienesRaices.com',
         to: email,
-        subject: 'Bienvenido/a a BienesRaices_230297',
-        text: 'Ya casi puedes usar nuestra plataforma, solo falta...',
-        html: `
+        subject: 'Hola!, Confirma tu Cuente en BienesRacies.com',
+        text: '¡Gracias por subscribirte a la comunidad de BienesRacices!',
+        html:  `
     <style>
       
         body {
@@ -98,15 +94,18 @@ const emailAfterRegister = async (newUserData) => {
     <div class="container">
         <div class="title">¡Bienvenido a Bienes Raíces!</div>
         <p class="message">
-            Hola, <strong>${nombre}</strong><br>
+            Hola, ${name}<br>
             Tu cuenta ya está casi lista. Solo debes confirmarla haciendo clic en el siguiente enlace:
         </p>
-        <a href="${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}/auth/confirmAccount/${token}" class="button">Confirmar Cuenta</a>
+        <a href="${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}/auth/confirm_Account/${token}" class="button">Confirmar Cuenta</a>
         <p class="message">Una vez confirmes tu cuenta, podrás acceder a todos nuestros servicios y explorar las mejores opciones de bienes raíces. ¡Estamos emocionados de tenerte con nosotros!</p>
         <p class="message">Si no creaste esta cuenta, puedes ignorar este mensaje.</p>
         <p class="signature">Atentamente,<br>El equipo de Bienes Raíces</p>
         <div class="logo">
-            <img src="https://example.com/images/Sin_titulo.png" alt="Logo de Bienes Raíces">
+            <h2 style="text-align: center"> Atentamente: </h2>
+            <img src="https://xdddd.s3.us-east-2.amazonaws.com/firma.png" alt="Logo de Bienes Raíces">
+            <h2 style="text-align: center"> Lorena Citlalli Galindo Gonzalez </h2>
+            <p style="text-align: center">CEO de BienesRaices</p>
         </div>
         <div class="footer">
             &copy; 2024 BienesRaices.com - Todos los derechos reservados.<br>
@@ -115,13 +114,11 @@ const emailAfterRegister = async (newUserData) => {
     </div>
 </body>
 </html>
-
-
-
-
-
-        `
+    `
     })
 }
 
-export { emailAfterRegister }
+
+export {
+    registerEmail
+}

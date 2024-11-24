@@ -1,4 +1,5 @@
 import express from 'express'
+
 const router = express.Router()
 
 router.get("/", function(req, res){
@@ -7,12 +8,10 @@ router.get("/", function(req, res){
 
 router.get("/quienSoy", function(req, res){
     res.json({
-        "nombre" : "Lorena Citlalli Galindo Gonzalez",
-        "carrera" : "DSM",
+        "nombre" : "Francisco Garcia Garcia",
+        "carrera" : "TI DSM",
         "grado" : "4",
-        "grupo" : "B"
+        "grupo" : "A"
     })
-
 })
-
-    export default router;
+export default router;
