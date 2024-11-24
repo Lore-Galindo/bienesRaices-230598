@@ -51,3 +51,4 @@ router.get("/confirmAccount/:token", confirm)
 router.post("/createAccount", createNewUser)
 
 export default router;
+

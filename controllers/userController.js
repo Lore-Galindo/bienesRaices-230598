@@ -1,119 +1,130 @@
-import {  check, validationResult } from 'express-validator'
-import User from '../models/Users.js'
-import {generarId} from '../herlpers/tokens.js'
-import { emailAfterRegister } from '../herlpers/email.js'
-
-
-
-
-
-const formularioLogin= (request, response) =>{
-    response.render('auth/login',{
-        page: "Ingresa a la plataforma"
-        //csrfToken: request.csrfToken()
-    })
-}
-
-const formularioRegister= (request, response) =>{
-    response.render('auth/register',{
-        page: "crea una nueva cuenta"
-        
-    })
-}
-
-const register = async(request, response) =>{
-   /*=async*/ 
-
-   await check(`name`).notEmpty().withMessage("El nombre del usuario es un campo obligatorio").run(request)
-   await check("email").notEmpty().withMessage("El correo electronico es un campo obligatorio").isEmail().withMessage("El correo electronico no tiene el formato obligatoprio").run(request)
-   await check("password").notEmpty().withMessage("La contraseña es un campo obligatorio").isLength({min:8}).withMessage("La contraseña debe ser  de almenos 8 caracteres").run(request)
-   await check("password_confirm").equals(request.body.password).withMessage("la contraseña y su confirmacion debe coincidir").run(request)
-
-   let resultado =validationResult(request)
-    
-   if (!resultado.isEmpty()) {
-    return response.render('auth/register', {
-        page: 'Crear cuenta',
-        errores: resultado.array(),
-        user: { 
-            name: request.body.name,
-            email: request.body.email,  
-        }
+import { check, validationResult } from 'express-validator';
+import User from '../models/User.js';
+import { generatetid } from '../helpers/tokens.js';
+import { emailAfterRegister } from '../helpers/email.js';
+import moment from 'moment';
+// Renderizar formulario de inicio de sesión
+const formularioLogin = (req, res) => {
+    res.render('auth/login', {
+        autenticado: false,
+        page: 'Ingresa a la plataforma',
     });
-}
+};
 
-const { name, email, password } = request.body;
-const existingUser = await User.findOne({ where: { email } });
-
-if (existingUser) {
-    return response.render("auth/register", {
-        page: "Error al intentar crear la cuenta de usuario",
-        errores: [{ msg: `El usuario ${email} ya se encuentra registrado` }],
-        user: {  // Cambié 'users' a 'user' y lo llené con los valores correctos
-            name: request.body.name,
-            email: request.body.email,
-        }
+// Renderizar formulario de registro
+const formularioRegister = (req, res) => {
+    res.render('auth/register', {
+        page: 'Crea una nueva cuenta',
+        nombre_usuario: '',  // Inicializamos vacíos los campos
+        correo_usuario: '',
     });
-}
+};
+
+// Crear un nuevo usuario
+const createNewUser = async (req, res) => {
+    // Realizar validaciones en los campos del formulario
+    await check('nombre_usuario').notEmpty().withMessage('El nombre no puede ir vacío').run(req);
+    await check('correo_usuario').notEmpty().withMessage('El correo electrónico es un campo obligatorio')
+        .isEmail().withMessage('No es un email correcto').run(req);
+    await check('pass_usuario').notEmpty().withMessage('La contraseña es un campo obligatorio')
+        .isLength({ min: 8 }).withMessage('La contraseña debería tener al menos 8 caracteres').run(req);
+    await check('pass2_usuario').equals(req.body.pass_usuario).withMessage('Las contraseñas no coinciden').run(req);
+    await check('fecha_nacimiento').notEmpty().withMessage('La fecha de nacimiento es obligatoria')
+        .isDate().withMessage('La fecha no es válida').run(req);
+
+    // Verificar los resultados de las validaciones
+    const result = validationResult(req);
+
+    // Si hay errores, regresar al formulario con los mensajes y los valores ingresados por el usuario
+    if (!result.isEmpty()) {
+        return res.render('auth/register', {
+            page: 'Error al intentar crear la cuenta',
+            errors: result.array(),
+            nombre_usuario: req.body.nombre_usuario,  
+            correo_usuario: req.body.correo_usuario,  
+            fecha_nacimiento: req.body.fecha_nacimiento,
+        });
+    }
+
+    // Desestructurar los parámetros del request
+    const { nombre_usuario: name, correo_usuario: email, pass_usuario: password, fecha_nacimiento } = req.body;
+
+    // Verificar si el usuario ya existe en la base de datos
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+        return res.render('auth/register', {
+            page: 'Error al intentar crear la cuenta de Usuario',
+            errors: [{ msg: `El usuario ${email} ya está registrado.` }],
+            nombre_usuario: name, 
+            correo_usuario: email,
+            fecha_nacimiento, 
+        });
+    }
+
+    // Convertir la fecha de nacimiento a UTC
+    const fechaNacimiento = moment(req.body.fecha_nacimiento).utc().format('YYYY-MM-DD HH:mm:ss');
+
+    // Crear un nuevo usuario
+    const newUser = await User.create({
+        name,
+        email,
+        password,
+        fecha_nacimiento: fechaNacimiento,  
+        token: generatetid(),  
+    });
+
+    // Enviar correo de confirmación
+    emailAfterRegister({
+        name: newUser.name,
+        email: newUser.email,
+        token: newUser.token,
+    });
+
+    // Mostrar un mensaje de éxito
+    res.render('templates/message', {
+        page: 'Cuenta creada correctamente',
+        message: `Hemos enviado un email de confirmación al correo: ${email}`,
+    });
+};
 
 
-console.log("Registrado a un nuevo usuario");
-console.log(request.body);
+// Confirmar cuenta (si el usuario hace clic en el enlace de confirmación del correo)
+const confirm = async (req, res) => {
+    const { token } = req.params;
 
-const newUser= await User.create({
-    name,
-    email,
-    password, 
-    token: generarId()
-});
-
-emailAfterRegister({
-    name: newUser.name,
-    email: newUser.email,
-    token: newUser.token
-})
-
-response.render("templates/mesage",{
-    page: "cuenta creada correctamente",
-    menssage:  `hemos enviado un email de confirmacion a ${email}`
-})
-
-//response.json(newUser);
-
-//return;
-
-}
-
-const confirmAccount = async (request, response) => {
-    const { token } = request.params;
-    const confirmUser = await User.findOne({ where: { token } });
-    
-    if (!confirmUser) {
-        return response.render('auth/confirmAccount', {  
-            page: 'Error al confirmar tu Cuenta',
-            message: 'Hubo un error al confirmar tu cuenta, intenta de nuevo',
+    // Verificar si el token es válido
+    const user = await User.findOne({ where: { token } });
+    if (!user) {
+        return res.render('auth/confirmAccount', {
+            page: 'Error al confirmar tu cuenta...',
+            msg: 'Hubo un error al confirmar tu cuenta, intenta de nuevo.',
             error: true,
         });
     }
 
     // Confirmar la cuenta
-    confirmUser.token = null;
-    confirmUser.confirmAccount = true;
-    await confirmUser.save();
+    user.token = null;  // Eliminar el token
+    user.confirmacion = true;  // Marcar la cuenta como confirmada
+    await user.save();  // Guardar cambios en la base de datos
 
-    response.render('auth/confirmAccount', { 
+    res.render('auth/confirmAccount', {
         page: 'Cuenta Confirmada',
-        message: 'La cuenta se confirmó correctamente',
+        msg: 'La cuenta se ha confirmado correctamente.',
+        error: false,
     });
-}
+};
 
-const formularioPasswordRecovery= (request, response) =>{
-    response.render('auth/passwordRecovery',{
-        page: "Recuperar contraseña" 
-        
-    })
-}
+// Renderizar formulario de recuperación de contraseña
+const formularioPasswordRecovery = (req, res) => {
+    res.render('auth/passwordRecovery', {
+        page: 'Recupera tu contraseña',
+    });
+};
 
 export {
-    formularioLogin, formularioRegister, register, confirmAccount, formularioPasswordRecovery
-}
+    formularioLogin,
+    formularioRegister,
+    createNewUser,
+    confirm,
+    formularioPasswordRecovery,
+};

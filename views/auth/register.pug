@@ -1,41 +1,83 @@
 extends ../layout/index
 
-block contenido 
-    div.py-10 
-        h2.text-center.font-extrabold.my-10.text-4xl.text-violeta Bienes
-            span.font-normal.text-black Raíces
-        h2.text-center.font-extrabold.text-2xl=page
+block contenido
+    div.py-10
+        h1.text-center.text-4xl.my-10.font-extrabold.text-violeta Bienes
+            span.font-normal.text-black Raices
+        h2.text-center.font-extrabold.text-2xl= page
 
-        if errores 
+        if errors
             div(class="max-w-md mx-auto my-10")
-                each error in errores 
-                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
+                each error in errors 
+                    div(class="bg-rosa text-white p-3 rounded-md shadow-lg mb-3 animate__animated animate__fadeIn relative") 
+                        span(class="uppercase text-xs font-bold")= error.msg
+                        button(class="text-white absolute top-2 right-2 cursor-pointer" onclick="this.parentElement.remove()") &times;
 
         .mt-8.mx-auto.max-w-md 
             .bg-white.py-8.px-4.shadow
-                form(method="POST" action="/auth/register").space-y-5
-                    input(type="hidden" name="_csrf" value= csrfToken)
-                    
-                    div 
-                        label.block.text-sm.uppercase.text-negro.mb-2.font-bold Nombre Completo
-                        input#name.w-full.px-3.py-2.border.border-gray300.rounded-xl.placeholder.gray-400(type="text" placeholder="Ingresa tu nombre con apellidos" name="name" value= user ? user.name : '')
+                form(method="POST" action='/auth/newUser' noValidate).space-y-5.px-6
+                    div.relative
+                        label.block.text-sm.uppercase.text-amarillo.md-2.font-nold Nombre completo:
+                        div(class="absolute top-7 right-3 text-amarillo")
+                            i(class="fa fa-user")
+                        input#name.w-full.px-3.py-2.border.border-amarillo.rounded-md.placeholder.amarillo(
+                            type="text"  
+                            placeholder="Ej. Esther González Peralta" 
+                            name="nombre_usuario" 
+                            value=nombre_usuario || ""
+                        )
 
-                    div 
-                        label.block.text-sm.uppercase.text-negro.mb-2.font-bold  Correo Electronico 
-                        input#email.w-full.px-3.py-2.border.border-gray300.rounded-xl.placeholder.gray-400(type="email" placeholder="Ej:usuario@dominio.com" name="email" value=user ? user.email : '')
+                    div.relative
+                        label.block.text-sm.uppercase.text-amarillo.md-2.font-nold Correo electrónico:
+                        div(class="absolute top-7 right-3 text-amarillo")
+                            i(class="fa fa-envelope")
+                        input#email.w-full.px-3.py-2.border.border-amarillo.rounded-md.placeholder.amarillo(
+                            type="email"  
+                            placeholder="Ej: esther@gmail.com" 
+                            name="correo_usuario" 
+                            value=correo_usuario || ""
+                        )
 
-                    div 
-                        label.block.text-sm.uppercase.text-negro.mb-2.font-bold Contraseña:
-                        input#password.w-full.px-3.py-2.border.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres" name="password")
+                    div.relative
+                        label.block.text-sm.uppercase.text-amarillo.md-2.font-nold Contraseña:
+                        div(class="absolute top-7 right-3 text-amarillo")
+                            i(class="fa fa-lock")
+                        input#password.w-full.px-3.py-2.border.border-amarillo.rounded-md.placeholder.amarillo(
+                            type="password"  
+                            placeholder="Mínimo de 8 caracteres" 
+                            name="pass_usuario"
+                        )
 
-                    div 
-                        label.block.text-sm.uppercase.text-negro.mb-2.font-bold Confirmacion de contraseña:
-                        input#password-confirm.w-full.px-3.py-2.border.border-gray300.rounded-xl.placeholder.gray-400(type="password" placeholder="Minimo de 8 caracteres, igual a ala anterior" name="password_confirm")
-                    
+                    div.relative
+                        label.block.text-sm.uppercase.text-amarillo.md-2.font-nold Confirmación contraseña:
+                        div(class="absolute top-7 right-3 text-amarillo")
+                            i(class="fa fa-lock")
+                        input#passsword-confirm.w-full.px-3.py-2.border.border-amarillo.rounded-md.placeholder.amarillo(
+                            type="password"  
+                            placeholder="Mínimo de 8 caracteres" 
+                            name="pass2_usuario"
+                        )
+
+                    div.relative
+                        label.block.text-sm.uppercase.text-amarillo.md-2.font-nold Fecha de nacimiento:
+                        div(class="absolute top-7 right-3 text-amarillo")
+                        input#dob.w-full.px-3.py-2.border.border-amarillo.rounded-md.placeholder.amarillo(
+                            type="date" 
+                            name="fecha_nacimiento"
+                            value=fecha_nacimiento || ""
+                        )
+
                     div.flex.items-center.justify-between
-                        a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-amarillo") ¿Ya tienes cuenta? Inicia sesión
-                        a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-amarillo") Olvide mi contraseña
-                    div
-                        input(class="w-full bg-rosa hover:bg-violeta text-white font-bold py-3 cursor-pointer" type="submit" value="Ingresar")
+                        a.text-p_blue.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-rosa") ¿Ya tienes cuenta? Inicia sesión
+                        a.text-p_blue.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-rosa") Olvide mi contraseña
+                    input(class="w-full bg-violeta hover:bg-p_blue text-white font-bold py-3 cursor-pointer" type="submit" value="Crear cuenta")
 
-
+    script.
+        document.querySelectorAll('.bg-rosa').forEach((msg, index) => {
+            setTimeout(() => {
+                msg.classList.add('animate__fadeOut');
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                }, 1000);
+            }, 7000 + (index * 500)); 
+        });
