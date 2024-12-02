@@ -141,10 +141,56 @@ const formPasswordRecovery = (req, res) => {
     });
 };
 
+const updatePassword =async(request, reponse)=>{
+    //validar contraseñas 
+    await check('new_password').notEmpty().withMessage('la contraseña es un campo de registro="/assets/error.png" alt="Error" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 177px; display: inline-block;" />').run(req);
+    await check('confirm_new_password').isEmail().withMessage('Por favor, ingrese un correo electrónico válido. <img src="/assets/error.png" alt="Error" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 10px; display: inline-block;" />').run(req);
+    
+    let result = validationResult(req);
+    let tokenReset =req.params.token;
+
+    // Verificar si hay errores de validación
+    if (!result.isEmpty()) {
+        return res.render(`auth/passwordRecovery/${tokenReset}`, {
+            page: "Error en la actualizacion de contraseñas",
+            csrfToken: req.csrfToken(),
+            errors: result.array(),
+          
+        });
+    }
+    //Actualizar BD
+    const { name, email, password, birthDate } = req.body;
+
+    // Verificar si el usuario ya existe
+    const tokenOwnerUser = await User.findOne({ where: { tokenReset } });
+    if (userExist) {
+        return res.render('auth/createAccount', {
+            page: "Crear una cuenta",
+            errors: [{ msg: `Por favor revisa los datos e intentalo de nuevo` }],
+            csrfToken: req.csrfToken(),
+          
+        });
+    }
+    else 
+    {
+        tokenOwnerUser.password=req.body.new_password;
+        tokenOwnerUser.token=null;
+        tokenOwnerUser.save();
+        //Reesponder una pagina al usuario
+        res.render('auth/accountConfirmed'),{
+            page: 'Excelente..!',
+            msg: 'Tu contraseña ha sido actualizada',
+            error: false
+        }
+    }
+
+    //Mostrar la pagina
+}
+
 export {
     formLogin,
     formCreateAccount,
     formPasswordRecovery,
     confirmAccount,
-    create
+    create,updatePassword
 };
