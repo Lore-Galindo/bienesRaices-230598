@@ -1,6 +1,6 @@
 import express from 'express';
 import { 
-    formLogin,formCreateAccount,formPasswordRecovery,create,confirmAccount,checkToken,newPassword,confirm,resetPassword
+    formLogin,formCreateAccount,formPasswordRecovery,create,confirmAccount,checkToken,newPassword,confirm,resetPassword,authenticate
 } from '../controllers/userControllers.js';
 
 const router = express.Router();
@@ -35,6 +35,7 @@ router.delete("/deleteUser/:name", function (req, res) {
 
 // Rutas principales basadas en el controlador
 router.get("/login", formLogin); // Mostrar formulario de inicio de sesión
+router.post("/login", authenticate);
 router.get("/register", formCreateAccount); // Mostrar formulario de registro
 router.post("/register", create); // Crear un nuevo usuario
 router.get('/confirm_Account/:token', confirmAccount); // Confirmar cuenta a través de token
