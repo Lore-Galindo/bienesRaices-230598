@@ -12,7 +12,7 @@ const formLogin = (req, res) => {
   });
 };
 
-// Autenticar usuario
+
 const authenticate = async (req, res) => {
   // Validación de campos
   await check('email')
@@ -34,7 +34,7 @@ const authenticate = async (req, res) => {
       });
   }
 
-  const { email:email, password } = req.body;
+  const { email, password } = req.body;
 
   try {
       // Verificar si el usuario existe en la base de datos
@@ -56,8 +56,9 @@ const authenticate = async (req, res) => {
           });
       }
 
-      // Revisar el password
-      if (!user.verificarPassword(password)) {
+      // Revisar el password utilizando el método verificarPassword
+      const passwordValid = user.verificarPassword(password);
+      if (!passwordValid) {
           return res.render('auth/login', {
               page: 'Iniciar Sesión',
               csrfToken: req.csrfToken(),
@@ -71,7 +72,7 @@ const authenticate = async (req, res) => {
       // Almacenar el token en una cookie
       return res.cookie('_token', token, {
           httpOnly: true,
-      }).redirect('/myProperties');
+      }).redirect('/properties/myProperties');
   } catch (error) {
       console.error(error);
       return res.status(500).render('auth/login', {
@@ -81,6 +82,7 @@ const authenticate = async (req, res) => {
       });
   }
 };
+
 
 // Mostrar formulario de registro
 const formCreateAccount = (req, res) => {
@@ -161,7 +163,7 @@ const confirmAccount = async (req, res) => {
   }
 
   user.token = null;
-  user.confirmed = true;
+  user.confirm = true;
   await user.save();
 
   res.render("auth/confirm_Account", {
@@ -218,7 +220,7 @@ const resetPassword = async (req, res) => {
       errors: [{ msg: 'El correo no pertenece a un usuario confirmado.' }],
     });
   }
-
+  user.password="";
   // Generar un token
   user.token = generateId();
   await user.save();

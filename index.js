@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import csurf from 'csurf';
-
+import propertyRoutes from './routes/propiedades.js';
 import generalRoutes from './routes/generalRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import db from './config/db.js';
@@ -34,6 +34,8 @@ try {
 
 app.use('/', generalRoutes)
 app.use('/auth', userRoutes)
+app.use('/properties', propertyRoutes);
+
 
 const port = process.env.PORT || 3000
 app.listen(port, () =>
