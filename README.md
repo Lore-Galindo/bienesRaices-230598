@@ -14,7 +14,8 @@ Para poder demostrary aprender la creacion y consumo de Interfaces de Programaci
 |10.|24/10/2024|Operaciones Basicas de una API a traves de los verbos HTTP|12|🌙Finalizada|
 |11.|04/11/2024|Creación de formularios para el ingreso y recuperación de contraseña de los usuarios |13|🌙Finalizada|
 |12.|23/11/2024|Implementacion de validacion en formulario y duplicidad en base de datos  |30|🌙Finalizada|
-|13.|24/11/2024|Examen Practico|10|🌙Finalizada|
+|13.|21/11/2024|Implementacion de validacion en formulario de recuperacion de contraseña||🌙Finalizada|
+|14.|21/11/2024|Implementacion de la vista principal de propiedades||🌙Finalizada|
 
 ### Tech Stack
 ![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
